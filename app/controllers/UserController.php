@@ -10,9 +10,11 @@ class UserController extends \BaseController {
 	public function index()
 	{
 		//
-		$users=array("Imary","Shabani","Innocent","Kitururu");
+		$users=User::all();
 
 		return View::make('users.index',compact('users'));
+
+
 	}
 
 
@@ -24,6 +26,9 @@ class UserController extends \BaseController {
 	public function create()
 	{
 		//
+		$profile=Profile::lists('name','id');
+
+		return View::make('users.create',compact('profile'));
 	}
 
 
@@ -35,6 +40,22 @@ class UserController extends \BaseController {
 	public function store()
 	{
 		//
+
+		//Capture inputs
+		 $user= new User();
+		 $user->firstname=Input::get('firstname');
+		 $user->Lastname=Input::get('lastname');
+		 $user->phone=Input::get('phone');
+		 $user->status=Input::get('status');
+
+		 $user->save();
+
+		 $prof=new Profile();
+		 $prof->name='Computer';
+		 $prof->userid=$user->id;
+		 $prof->save();
+
+		 return Redirect::to('users');
 	}
 
 
